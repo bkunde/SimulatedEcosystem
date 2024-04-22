@@ -201,7 +201,7 @@ public class CreatureClass : MonoBehaviour
 	
 	void checkReproduce(){
         if (mReproductiveUrge <= 10) reproduce = false;
-		if (mReproductiveUrge >= 75f)
+		if (mReproductiveUrge >= 50f)
 			mCurrentBehavior = behaviorState.FindingMate;
 	}
 
@@ -344,26 +344,29 @@ public class CreatureClass : MonoBehaviour
     }
 
     IEnumerator Chase(CreatureClass mate){
-        if ((mate.rowLoc == rowLoc) && (mate.colLoc == colLoc)){
-            Reproduce(mate);
-        }
-        else{
-            int distance = Math.Abs(mate.rowLoc - rowLoc)+ Math.Abs(mate.colLoc - colLoc);
-            if ((distance <= 2) && (mSex == "Female"))
-                DontMove();
-            else
-                GoToLoc(mate.rowLoc, mate.colLoc);
+        if (mate != null){
+            if ((mate.rowLoc == rowLoc) && (mate.colLoc == colLoc)){
+                Reproduce(mate);
+            }
+            else{
+                int distance = Math.Abs(mate.rowLoc - rowLoc)+ Math.Abs(mate.colLoc - colLoc);
+                if ((distance <= 2) && (mSex == "Female"))
+                    DontMove();
+                else
+                    GoToLoc(mate.rowLoc, mate.colLoc);
+            }
         }
         yield return null;
     }
 
     IEnumerator Hunt(CreatureClass prey){
-        if ((prey.rowLoc == rowLoc) && (prey.colLoc == colLoc)){
-            EatPrey(prey);
+        if (prey != null){
+            if ((prey.rowLoc == rowLoc) && (prey.colLoc == colLoc)){
+                EatPrey(prey);
+            }
+            else
+                GoToLoc(prey.rowLoc, prey.colLoc);
         }
-        else
-            GoToLoc(prey.rowLoc, prey.colLoc);
-
         yield return null;
     }
 
@@ -475,10 +478,16 @@ public class CreatureClass : MonoBehaviour
             newRowLoc = GetNewX();
             newColLoc = GetNewY();
             
+            int count = 0;
             while (map[newRowLoc, newColLoc].whatsInside != "Empty"){
+                if (count >= 100)
+                    break;
                 newRowLoc = GetNewX();
                 newColLoc = GetNewY();
+                count++;
             }
+            if (count >= 100)
+                newRowLoc = rowLoc + 1;
 
             int xDist = newRowLoc - rowLoc;
             int yDist = newColLoc - colLoc;

@@ -15,6 +15,8 @@ public class BerryBush : MonoBehaviour
     public float height = 0;
 	public int berries = 3;
 	public float decreaseSize; 
+    public float regrowRate;
+    public float regrowTime;
 	public string bushName = "BerryBush";
     public int row;
     public int col;
@@ -79,6 +81,14 @@ public class BerryBush : MonoBehaviour
 		map[x,y].Name = bushName;
 
 	}
+    public void updateBush(){
+        regrowTime += regrowRate * Time.deltaTime;
+        if (regrowTime >= 5f){
+            //regrowBushes
+            env.RegrowBush();
+            regrowTime = 0f;
+        }
+    }
 
 	public void EatBerries(){
 		if (berries <= 1)
@@ -90,7 +100,7 @@ public class BerryBush : MonoBehaviour
 	}
 	public void DestoryBush(){
         map[row, col].Name = "Grass";
-        map[row, col].whatsInside = "BerryBush";
+        map[row, col].whatsInside = "Empty";
 		Destroy(bush);
 		Destroy(this);
 	}

@@ -8,17 +8,18 @@ public class Fox : CreatureClass
     public GameObject foxFemalePrefab;
 
 	public void CreateStartFox(){
-        mSpeed = Random.Range(2, 8);
+        mSpeed = Random.Range(3, 8);
         mHungerRate = 0.4f * mSpeed;
         mThirstRate = 0.5f * mSpeed;
-        mReproductiveRate = (float)Random.Range(2, 4);
+        mReproductiveRate = (float)Random.Range(6, 8);
         mSightRange = Random.Range(2, 6);
         mDontMoveChance = Random.Range(15, 30);
         mCreatureName = "Fox";
         mGestationPeriod = ((float)Random.Range(10, 17))/10;
-        mLifespan = Random.Range(3, 8);
+        mLifespan = Random.Range(4, 8);
         height = 0.3f;
         mDiet = foodSource.Rabbit;
+        mAge = 1.5f;
         int r = Random.Range(0,2);
         if (r == 0){
             mSex = "Male";

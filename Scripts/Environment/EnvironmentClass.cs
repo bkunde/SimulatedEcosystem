@@ -78,14 +78,10 @@ public class EnvironmentClass : MonoBehaviour
         List<Fox> deadFoxes = new List<Fox>(); 
 		foreach(Rabbit r in rabbits){
             Rabbit kit;
-            if (r.isDead){
-                deadRabbits.Add(r);
-                continue;
-            }
 			if (r != null){
                 if(r.reproduce){
                     r.reproduce = false;
-                    int litter = UnityEngine.Random.Range(1, 4);
+                    int litter = UnityEngine.Random.Range(3, 6);
                     for (int i = 0; i < litter; i++){
                         kit = CreateNewRabbit(r.rowLoc, r.colLoc, r);
                         newRabbits.Add(kit);
@@ -93,13 +89,12 @@ public class EnvironmentClass : MonoBehaviour
                 }
                 r.UpdateCreature();
             }
+            else{
+                deadRabbits.Add(r);
+            }
 		}
         foreach(Fox f in foxes){
             Fox pup;
-            if (f.isDead){
-                deadFoxes.Add(f);
-                continue;
-            }
 			if (f != null){
                 if(f.reproduce){
                     pup = CreateNewFox(f.rowLoc, f.colLoc, f);
@@ -107,7 +102,12 @@ public class EnvironmentClass : MonoBehaviour
                 }
 				f.UpdateCreature();
             }
+            else{
+                deadFoxes.Add(f);
+            }
         }
+
+        bush.updateBush();
         
         if (DEBUG){
             for (int x = 0; x < map.GetLength(0); x++){
@@ -150,6 +150,14 @@ public class EnvironmentClass : MonoBehaviour
 		}
 	}
 	
+	public void RegrowBush(){
+		BerryBush newbush;
+        newbush = Instantiate(bush);
+        newbush.CreateBush();
+        bushes.Add(newbush);
+        newbush.transform.parent = bushHolder.transform;
+	}
+
 	void PlaceTrees(){
 		TreeCreator newTree;
 		for (int i = 0; i < treeAmount; i++){

@@ -8,16 +8,17 @@ public class Rabbit : CreatureClass
     public GameObject rabbitFemalePrefab;
 
 	public void CreateStartRabbit(){
-		mSpeed = Random.Range(1, 6);
+		mSpeed = Random.Range(2, 6);
 		mHungerRate = 0.2f * mSpeed;
 		mThirstRate = 0.34f * mSpeed;
-        mReproductiveRate = (float)Random.Range(2, 5);
+        mReproductiveRate = (float)Random.Range(6, 10);
 		mSightRange = Random.Range(2, 8);
         mDontMoveChance = Random.Range(25, 50);
 		mCreatureName = "Rabbit";
 		mGestationPeriod = ((float)Random.Range(5, 12))/10;
-		mLifespan = Random.Range(2, 4);
+		mLifespan = Random.Range(4, 6);
         mDiet = foodSource.Berry;
+        mAge = 1f;
         int r = Random.Range(0,2);
         if (r == 0){ 
             mSex = "Male";
